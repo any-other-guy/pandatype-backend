@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+        Copyright 2015-2021 the original author or authors.
+        Licensed under the Apache License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+        http://www.apache.org/licenses/LICENSE-2.0
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+        -->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pandatype.leaderboard.mapper.LeaderboardMapper">
+    <resultMap id="LeaderboardRecordMap" type="LeaderboardRecordEntity">
+        <result property="username" column="username"/>
+        <result property="testLanguage" column="testLanguage"/>
+        <result property="testType" column="testType"/>
+        <result property="testOption" column="testOption"/>
+        <result property="wpm" column="wpm"/>
+        <result property="rawWpm" column="rawWpm"/>
+        <result property="accuracy" column="accuracy"/>
+        <result property="consistency" column="consistency"/>
+        <result property="testDate" column="testDate"/>
+        <result property="elapsedTime" column="elapsedTime"/>
+    </resultMap>
+    <select id="selectLeaderboardByTestOptions"
+            parameterType="com.pandatype.leaderboard.entities.LeaderboardRecordEntity"
+            resultMap="LeaderboardRecordMap">
+        Select user_entities_table.username as username, testLanguage, testType, testOption, wpm, rawWpm, accuracy, consistency, testDate, elapsedTime
+        From leaderboard_table
+            INNER JOIN user_entities_table ON leaderboard_table.userId = user_entities_table.userId
+        WHERE testLanguage = #{testLanguage} AND testType = #{testType} AND testOption = #{testOption}
+        ORDER BY wpm DESC;
+    </select>
+
+    <insert id="insertLeaderboardRecord" parameterType="com.pandatype.leaderboard.entities.LeaderboardRecordEntity">
+        INSERT INTO leaderboard_table (userId, testLanguage, testType, testOption, wpm, rawWpm, accuracy, consistency, testDate, elapsedTime)
+        VALUES(#{userId}, #{testLanguage}, #{testType}, #{testOption}, #{wpm}, #{rawWpm}, #{accuracy}, #{consistency}, FROM_UNIXTIME(#{testDate}), #{elapsedTime});
+    </insert>
+</mapper>

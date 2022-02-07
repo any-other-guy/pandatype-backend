@@ -13,6 +13,7 @@ services:
     volumes:
       - .m2/repository/UserEntitySchema.sql:/docker-entrypoint-initdb.d/1.sql
       - .m2/repository/TypingtestSchema.sql:/docker-entrypoint-initdb.d/2.sql
+      - .m2/repository/LeaderboardSchema.sql:/docker-entrypoint-initdb.d/3.sql
       - .m2/repository/enWords.csv:/var/lib/mysql-files/enWords.csv
       - .m2/repository/enQuote.csv:/var/lib/mysql-files/enQuote.csv
       - .m2/repository/zhWords.csv:/var/lib/mysql-files/zhWords.csv
@@ -20,6 +21,7 @@ services:
       - db:/var/lib/mysql
     command:
       - '--local_infile=1'
+
   auth:
     depends_on:
       - mysqldb
@@ -34,11 +36,11 @@ services:
         "spring.datasource.username" : "$MYSQLDB_USER",
         "spring.datasource.password" : "$MYSQLDB_ROOT_PASSWORD"
       }'
-
     volumes:
       - .m2:/root/.m2
     stdin_open: true
     tty: true
+
   typingtest:
     depends_on:
       - mysqldb
@@ -53,7 +55,25 @@ services:
           "spring.datasource.username" : "$MYSQLDB_USER",
           "spring.datasource.password" : "$MYSQLDB_ROOT_PASSWORD"
         }'
+    volumes:
+      - .m2:/root/.m2
+    stdin_open: true
+    tty: true
 
+  leaderboard:
+    depends_on:
+      - mysqldb
+    build: ./leaderboard
+    restart: on-failure
+    env_file: ./.env
+    ports:
+      - $LEADERBOARD_LOCAL_PORT:$LEADERBOARD_DOCKER_PORT
+    environment:
+      SPRING_APPLICATION_JSON: '{
+          "spring.datasource.url"  : "jdbc:mysql://mysqldb:$MYSQLDB_DOCKER_PORT/$MYSQLDB_DATABASE?useSSL=false",
+          "spring.datasource.username" : "$MYSQLDB_USER",
+          "spring.datasource.password" : "$MYSQLDB_ROOT_PASSWORD"
+        }'
     volumes:
       - .m2:/root/.m2
     stdin_open: true

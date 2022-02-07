@@ -7,14 +7,14 @@ DROP TABLE IF EXISTS zhWords;
 DROP TABLE IF EXISTS enQuote;
 DROP TABLE IF EXISTS enWords;
 
-create table enWords
+CREATE TABLE enWords
 (
     id   bigint auto_increment,
     word varchar(20) not null unique,
     PRIMARY KEY (id)
 );
 
-create table enQuote
+CREATE TABLE enQuote
 (
     id     bigint auto_increment,
     text   varchar(10000) not null,

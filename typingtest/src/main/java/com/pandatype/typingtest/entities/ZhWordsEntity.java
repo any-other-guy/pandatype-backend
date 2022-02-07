@@ -1,6 +1,5 @@
 package com.pandatype.typingtest.entities;
 
-import com.google.gson.Gson;
 import lombok.Getter;
 import lombok.Setter;
 import org.slf4j.Logger;

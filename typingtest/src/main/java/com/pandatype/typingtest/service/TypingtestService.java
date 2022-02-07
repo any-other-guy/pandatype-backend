@@ -17,7 +17,7 @@ public class TypingtestService {
 
     public TypingtestResponseEntity getEnWords() {
         List<EnWordsEntity> list = typingtestMapper.selectEnWords();
-        return new TypingtestResponseEntity("english", "words", list);
+        return new TypingtestResponseEntity("en", "words", list);
     }
 
     public TypingtestResponseEntity getEnQuote(String length) {

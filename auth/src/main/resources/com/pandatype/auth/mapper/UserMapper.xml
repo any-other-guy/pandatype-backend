@@ -17,7 +17,7 @@
 <mapper namespace="com.pandatype.auth.mapper.UserMapper">
     <select id="selectUserEntityByEmail" parameterType="java.lang.String"
             resultType="com.pandatype.auth.entities.UserEntity">
-        Select user_id, username, email, password
+        Select userId, username, email, password
         From user_entities_table
         Where email = #{email};
     </select>

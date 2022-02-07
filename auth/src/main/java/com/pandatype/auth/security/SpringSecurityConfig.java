@@ -51,6 +51,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity httpSecurity) throws Exception {
         // Allow cross-origin
+        httpSecurity.cors();
         httpSecurity.csrf().disable();
         // Handle auth related exceptions
         httpSecurity.exceptionHandling().authenticationEntryPoint(errorAuthenticationEntryPoint);
