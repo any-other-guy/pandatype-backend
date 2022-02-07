@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+        Copyright 2015-2021 the original author or authors.
+        Licensed under the Apache License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+        http://www.apache.org/licenses/LICENSE-2.0
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+        -->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pandatype.auth.mapper.UserMapper">
+    <select id="selectUserEntityByEmail" parameterType="java.lang.String"
+            resultType="com.pandatype.auth.entities.UserEntity">
+        Select user_id, username, email, password
+        From user_entities_table
+        Where email = #{email};
+    </select>
+
+    <insert id="insertUserEntity" parameterType="com.pandatype.auth.entities.UserEntity" useGeneratedKeys="true"
+            keyProperty="userId">
+        Insert into user_entities_table(username, email, password)
+        Values (#{username}, #{email}, #{password});
+    </insert>
+</mapper>
