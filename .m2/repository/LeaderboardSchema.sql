@@ -5,7 +5,7 @@ DROP TABLE IF EXISTS leaderboard_table;
 CREATE TABLE leaderboard_table
 (
     id           bigint auto_increment,
-    userId      bigint,
+    userId       bigint,
     testLanguage varchar(10) not null,
     testType     varchar(10) not null,
     testOption   varchar(10) not null,

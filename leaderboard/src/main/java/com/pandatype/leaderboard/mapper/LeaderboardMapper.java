@@ -9,5 +9,5 @@ import java.util.List;
 public interface LeaderboardMapper {
     List<LeaderboardRecordEntity> selectLeaderboardByTestOptions(LeaderboardRecordEntity leaderboardRecordEntity);
 
-    void insertLeaderboardRecord(LeaderboardRecordEntity leaderboardRecordEntity);
+    int insertLeaderboardRecord(LeaderboardRecordEntity leaderboardRecordEntity);
 }

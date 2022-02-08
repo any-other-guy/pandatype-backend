@@ -37,7 +37,9 @@
         ORDER BY wpm DESC;
     </select>
 
-    <insert id="insertLeaderboardRecord" parameterType="com.pandatype.leaderboard.entities.LeaderboardRecordEntity">
+    <insert id="insertLeaderboardRecord"
+            parameterType="com.pandatype.leaderboard.entities.LeaderboardRecordEntity"
+            useGeneratedKeys="true">
         INSERT INTO leaderboard_table (userId, testLanguage, testType, testOption, wpm, rawWpm, accuracy, consistency, testDate, elapsedTime)
         VALUES(#{userId}, #{testLanguage}, #{testType}, #{testOption}, #{wpm}, #{rawWpm}, #{accuracy}, #{consistency}, FROM_UNIXTIME(#{testDate}), #{elapsedTime});
     </insert>
