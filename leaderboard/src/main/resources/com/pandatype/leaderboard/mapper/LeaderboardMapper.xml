@@ -43,4 +43,12 @@
         INSERT INTO leaderboard_table (userId, testLanguage, testType, testOption, wpm, rawWpm, accuracy, consistency, testDate, elapsedTime)
         VALUES(#{userId}, #{testLanguage}, #{testType}, #{testOption}, #{wpm}, #{rawWpm}, #{accuracy}, #{consistency}, FROM_UNIXTIME(#{testDate}), #{elapsedTime});
     </insert>
+
+    <select id="selectUserEntityByEmail" parameterType="java.lang.String"
+            resultType="com.pandatype.leaderboard.entities.UserEntity">
+        Select userId, username, email, password
+        From user_entities_table
+        Where email = #{email};
+    </select>
+
 </mapper>

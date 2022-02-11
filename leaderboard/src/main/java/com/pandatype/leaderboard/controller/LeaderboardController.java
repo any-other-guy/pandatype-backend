@@ -29,7 +29,7 @@ public class LeaderboardController {
     }
 
     @PostMapping(value = "/saveTestResult")
-    public ResponseEntity<Object> saveTestResult(@RequestParam(required = true) long userId,
+    public ResponseEntity<Object> saveTestResult(@RequestParam(required = true) String email,
                                                     @RequestParam(required = true) String testLanguage,
                                                     @RequestParam(required = true) String testType,
                                                     @RequestParam(required = true) String testOption,
@@ -39,7 +39,7 @@ public class LeaderboardController {
                                                     @RequestParam(required = true) Double consistency,
                                                     @RequestParam(required = true) String testDate,
                                                     @RequestParam(required = true) Double elapsedTime){
-        LeaderboardRecordEntity leaderboardRecordEntity = new LeaderboardRecordEntity(userId, testLanguage, testType, testOption, wpm, rawWpm, accuracy, consistency, testDate, elapsedTime);
+        LeaderboardRecordEntity leaderboardRecordEntity = new LeaderboardRecordEntity(email, testLanguage, testType, testOption, wpm, rawWpm, accuracy, consistency, testDate, elapsedTime);
         int id = leaderboardService.addLeaderboardRecords(leaderboardRecordEntity);
         if (id == 0) {
             return ResponseEntity.notFound().build();

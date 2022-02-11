@@ -1,7 +1,7 @@
 package com.pandatype.leaderboard.service;
 
+import com.pandatype.leaderboard.entities.UserEntity;
 import com.pandatype.leaderboard.entities.LeaderboardRecordEntity;
-import com.pandatype.leaderboard.entities.LeaderboardResponseEntity;
 import com.pandatype.leaderboard.entities.LeaderboardRecordListResponseEntity;
 import com.pandatype.leaderboard.mapper.LeaderboardMapper;
 import org.slf4j.Logger;
@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 @Service
 public class LeaderboardService {
@@ -25,6 +24,8 @@ public class LeaderboardService {
     }
 
     public int addLeaderboardRecords (LeaderboardRecordEntity leaderboardRecordEntity) {
+        UserEntity userEntity = leaderboardMapper.selectUserEntityByEmail(leaderboardRecordEntity.getUsername());
+        leaderboardRecordEntity.setUserId(userEntity.getUserId());
         return leaderboardMapper.insertLeaderboardRecord(leaderboardRecordEntity);
     }
 }

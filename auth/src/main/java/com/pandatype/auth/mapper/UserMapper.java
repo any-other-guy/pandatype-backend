@@ -8,5 +8,5 @@ import org.apache.ibatis.annotations.Mapper;
 public interface UserMapper {
     void insertUserEntity(UserEntity userEntity);
 
-    UserEntity selectUserEntityByEmail(String username);
+    UserEntity selectUserEntityByEmail(String email);
 }

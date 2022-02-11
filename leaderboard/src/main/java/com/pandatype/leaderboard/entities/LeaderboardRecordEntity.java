@@ -8,6 +8,7 @@ import lombok.Setter;
 public class LeaderboardRecordEntity {
     private long userId;
     private String username;
+    private String email;
     private String testLanguage;
     private String testType;
     private String testOption;
