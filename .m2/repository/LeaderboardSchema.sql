@@ -43,6 +43,18 @@ INSERT INTO leaderboard_table
 VALUES(11, 1, "en", "time", "60", 144, 144, 100.00, 100.00, 20220207121155, 60);
 INSERT INTO leaderboard_table
 VALUES(12, 1, "en", "time", "60", 133, 133, 100.00, 100.00, 20220207121155, 60);
+INSERT INTO leaderboard_table
+VALUES(13, 1, "en", "time", "60", 80, 80, 100.00, 100.00, 20220207121155, 60);
+INSERT INTO leaderboard_table
+VALUES(14, 1, "en", "time", "60", 55, 55, 100.00, 100.00, 20220207121155, 60);
+INSERT INTO leaderboard_table
+VALUES(15, 1, "en", "time", "60", 77, 77, 100.00, 100.00, 20220207121155, 60);
+INSERT INTO leaderboard_table
+VALUES(16, 1, "en", "time", "60", 66, 66, 100.00, 100.00, 20220207121155, 60);
+INSERT INTO leaderboard_table
+VALUES(17, 1, "en", "time", "60", 44, 44, 100.00, 100.00, 20220207121155, 60);
+INSERT INTO leaderboard_table
+VALUES(18, 1, "en", "time", "60", 33, 33, 100.00, 100.00, 20220207121155, 60);
 
 # Select user_entities_table.username, wpm, rawWpm, accuracy, consistency, testLanguage, testType, testOption, date
 # From leaderboard_table

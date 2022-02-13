@@ -1,7 +1,6 @@
 package com.pandatype.leaderboard.controller;
 
 import com.pandatype.leaderboard.entities.LeaderboardRecordEntity;
-import com.pandatype.leaderboard.entities.LeaderboardRecordListResponseEntity;
 import com.pandatype.leaderboard.entities.LeaderboardResponseEntity;
 import com.pandatype.leaderboard.service.LeaderboardService;
 import org.slf4j.Logger;
@@ -22,14 +21,17 @@ public class LeaderboardController {
     private LeaderboardService leaderboardService;
 
     @GetMapping(value = "/getLeaderboard")
-    public ResponseEntity<LeaderboardRecordListResponseEntity> getLeaderboard(@RequestParam(required = true) String testLanguage,
-                                                                              @RequestParam(required = true) String testType,
-                                                                              @RequestParam(required = true) String testOption){
-        return leaderboardService.getLeaderboardRecords(testLanguage, testType, testOption);
+    public ResponseEntity<LeaderboardResponseEntity> getLeaderboard(@RequestParam(required = false) String testLanguage,
+                                                                      @RequestParam(required = false) String testType,
+                                                                      @RequestParam(required = false) String testOption){
+        if(testLanguage != null && testType != null && testOption !=  null) {
+            return leaderboardService.getLeaderboardRecordsByOptions(testLanguage, testType, testOption);
+        }
+        return leaderboardService.getAllLeaderboards();
     }
 
     @PostMapping(value = "/saveTestResult")
-    public ResponseEntity<Object> saveTestResult(@RequestParam(required = true) String email,
+    public ResponseEntity<LeaderboardResponseEntity> saveTestResult(@RequestParam(required = true) String email,
                                                     @RequestParam(required = true) String testLanguage,
                                                     @RequestParam(required = true) String testType,
                                                     @RequestParam(required = true) String testOption,
@@ -49,7 +51,7 @@ public class LeaderboardController {
                     .buildAndExpand(id)
                     .toUri();
             return ResponseEntity.created(uri)
-                    .body(new LeaderboardResponseEntity("SUCCESS", "record saved"));
+                    .body(new LeaderboardResponseEntity("SUCCESS", "record saved", null));
         }
     }
 }

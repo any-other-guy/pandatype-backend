@@ -34,7 +34,8 @@
         From leaderboard_table
             INNER JOIN user_entities_table ON leaderboard_table.userId = user_entities_table.userId
         WHERE testLanguage = #{testLanguage} AND testType = #{testType} AND testOption = #{testOption}
-        ORDER BY wpm DESC;
+        ORDER BY wpm DESC
+        LIMIT 30;
     </select>
 
     <insert id="insertLeaderboardRecord"
