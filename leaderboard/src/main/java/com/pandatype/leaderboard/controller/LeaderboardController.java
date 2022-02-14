@@ -2,6 +2,7 @@ package com.pandatype.leaderboard.controller;
 
 import com.pandatype.leaderboard.entities.LeaderboardRecordEntity;
 import com.pandatype.leaderboard.entities.LeaderboardResponseEntity;
+import com.pandatype.leaderboard.security.TokenUtils;
 import com.pandatype.leaderboard.service.LeaderboardService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +21,9 @@ public class LeaderboardController {
     @Resource
     private LeaderboardService leaderboardService;
 
+    @Resource
+    TokenUtils tokenUtils;
+
     @GetMapping(value = "/getLeaderboard")
     public ResponseEntity<LeaderboardResponseEntity> getLeaderboard(@RequestParam(required = false) String testLanguage,
                                                                       @RequestParam(required = false) String testType,
@@ -31,17 +35,8 @@ public class LeaderboardController {
     }
 
     @PostMapping(value = "/saveTestResult")
-    public ResponseEntity<LeaderboardResponseEntity> saveTestResult(@RequestParam(required = true) String email,
-                                                    @RequestParam(required = true) String testLanguage,
-                                                    @RequestParam(required = true) String testType,
-                                                    @RequestParam(required = true) String testOption,
-                                                    @RequestParam(required = true) Double wpm,
-                                                    @RequestParam(required = true) Double rawWpm,
-                                                    @RequestParam(required = true) Double accuracy,
-                                                    @RequestParam(required = true) Double consistency,
-                                                    @RequestParam(required = true) String testDate,
-                                                    @RequestParam(required = true) Double elapsedTime){
-        LeaderboardRecordEntity leaderboardRecordEntity = new LeaderboardRecordEntity(email, testLanguage, testType, testOption, wpm, rawWpm, accuracy, consistency, testDate, elapsedTime);
+    public ResponseEntity<LeaderboardResponseEntity> saveTestResult(@RequestBody LeaderboardRecordEntity leaderboardRecordEntity){
+        leaderboardRecordEntity.setIdentifierStr(tokenUtils.getEmailFromToken(leaderboardRecordEntity.getIdentifierStr()));
         int id = leaderboardService.addLeaderboardRecords(leaderboardRecordEntity);
         if (id == 0) {
             return ResponseEntity.notFound().build();

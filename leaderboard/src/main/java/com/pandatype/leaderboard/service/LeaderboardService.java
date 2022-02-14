@@ -49,7 +49,7 @@ public class LeaderboardService {
     }
 
     public int addLeaderboardRecords (LeaderboardRecordEntity leaderboardRecordEntity) {
-        UserEntity userEntity = leaderboardMapper.selectUserEntityByEmail(leaderboardRecordEntity.getUsername());
+        UserEntity userEntity = leaderboardMapper.selectUserEntityByEmail(leaderboardRecordEntity.getIdentifierStr());
         leaderboardRecordEntity.setUserId(userEntity.getUserId());
         return leaderboardMapper.insertLeaderboardRecord(leaderboardRecordEntity);
     }

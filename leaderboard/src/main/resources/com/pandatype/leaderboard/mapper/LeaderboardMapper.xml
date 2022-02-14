@@ -16,7 +16,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pandatype.leaderboard.mapper.LeaderboardMapper">
     <resultMap id="LeaderboardRecordMap" type="LeaderboardRecordEntity">
-        <result property="username" column="username"/>
+        <result property="identifierStr" column="username"/>
         <result property="testLanguage" column="testLanguage"/>
         <result property="testType" column="testType"/>
         <result property="testOption" column="testOption"/>

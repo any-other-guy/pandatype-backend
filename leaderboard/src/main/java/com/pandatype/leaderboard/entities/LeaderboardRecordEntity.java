@@ -1,14 +1,15 @@
 package com.pandatype.leaderboard.entities;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class LeaderboardRecordEntity {
     private long userId;
-    private String username;
-    private String email;
+    private String identifierStr;
     private String testLanguage;
     private String testType;
     private String testOption;
@@ -39,8 +40,8 @@ public class LeaderboardRecordEntity {
         this.elapsedTime = elapsedTime;
     }
 
-    public LeaderboardRecordEntity(String username, String testLanguage, String testType, String testOption, Double wpm, Double rawWpm, Double accuracy, Double consistency, String testDate, Double elapsedTime) {
-        this.username = username;
+    public LeaderboardRecordEntity(String identifierStr, String testLanguage, String testType, String testOption, Double wpm, Double rawWpm, Double accuracy, Double consistency, String testDate, Double elapsedTime) {
+        this.identifierStr = identifierStr;
         this.testLanguage = testLanguage;
         this.testType = testType;
         this.testOption = testOption;
