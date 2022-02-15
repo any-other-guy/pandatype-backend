@@ -2,6 +2,7 @@ package com.pandatype.leaderboard.controller;
 
 import com.pandatype.leaderboard.entities.LeaderboardRecordEntity;
 import com.pandatype.leaderboard.entities.LeaderboardResponseEntity;
+import com.pandatype.leaderboard.security.HttpUtils;
 import com.pandatype.leaderboard.security.TokenUtils;
 import com.pandatype.leaderboard.service.LeaderboardService;
 import org.slf4j.Logger;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 
 @RestController
@@ -24,6 +26,9 @@ public class LeaderboardController {
     @Resource
     TokenUtils tokenUtils;
 
+    @Resource
+    HttpUtils httpUtils;
+
     @GetMapping(value = "/getLeaderboard")
     public ResponseEntity<LeaderboardResponseEntity> getLeaderboard(@RequestParam(required = false) String testLanguage,
                                                                       @RequestParam(required = false) String testType,
@@ -35,8 +40,13 @@ public class LeaderboardController {
     }
 
     @PostMapping(value = "/saveTestResult")
-    public ResponseEntity<LeaderboardResponseEntity> saveTestResult(@RequestBody LeaderboardRecordEntity leaderboardRecordEntity){
-        leaderboardRecordEntity.setIdentifierStr(tokenUtils.getEmailFromToken(leaderboardRecordEntity.getIdentifierStr()));
+    public ResponseEntity<LeaderboardResponseEntity> saveTestResult(@RequestBody LeaderboardRecordEntity leaderboardRecordEntity,
+                                                                    HttpServletRequest request){
+        String token = leaderboardRecordEntity.getIdentifierStr();
+        String email = token == null ? "" : tokenUtils.getEmailFromToken(token);
+        leaderboardRecordEntity.setIdentifierStr(email);
+        String ipAddress = httpUtils.getRequestIP(request);
+        leaderboardRecordEntity.setIpAddress(ipAddress);
         int id = leaderboardService.addLeaderboardRecords(leaderboardRecordEntity);
         if (id == 0) {
             return ResponseEntity.notFound().build();

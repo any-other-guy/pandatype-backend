@@ -19,6 +19,7 @@ public class LeaderboardRecordEntity {
     private Double consistency;
     private String testDate;
     private Double elapsedTime;
+    private String ipAddress;
 
     public LeaderboardRecordEntity(String testLanguage, String testType, String testOption) {
         this.testLanguage = testLanguage;
@@ -40,7 +41,7 @@ public class LeaderboardRecordEntity {
         this.elapsedTime = elapsedTime;
     }
 
-    public LeaderboardRecordEntity(String identifierStr, String testLanguage, String testType, String testOption, Double wpm, Double rawWpm, Double accuracy, Double consistency, String testDate, Double elapsedTime) {
+    public LeaderboardRecordEntity(String identifierStr, String testLanguage, String testType, String testOption, Double wpm, Double rawWpm, Double accuracy, Double consistency, String testDate, Double elapsedTime, String ipAddress) {
         this.identifierStr = identifierStr;
         this.testLanguage = testLanguage;
         this.testType = testType;
@@ -51,5 +52,6 @@ public class LeaderboardRecordEntity {
         this.consistency = consistency;
         this.testDate = testDate;
         this.elapsedTime = elapsedTime;
+        this.ipAddress = ipAddress;
     }
 }

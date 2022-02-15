@@ -13,4 +13,4 @@ create table user_entities_table
 );
 
 INSERT INTO user_entities_table
-VALUES (1, "anyotherguy@pandatype.com", "Any-Other-Guy", "PASSWORD");
+VALUES (1, "", "Anonymous", "PASSWORD");

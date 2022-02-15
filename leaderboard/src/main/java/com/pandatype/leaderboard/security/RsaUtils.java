@@ -3,6 +3,7 @@ package com.pandatype.leaderboard.security;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.stereotype.Component;
 import org.springframework.util.FileCopyUtils;
 
 import java.io.IOException;
@@ -17,6 +18,7 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 
+@Component
 public class RsaUtils {
     final static Logger LOGGER = LoggerFactory.getLogger(RsaUtils.class);
     /**
