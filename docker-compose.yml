@@ -11,9 +11,10 @@ services:
     ports:
       - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
     volumes:
-      - .m2/repository/UserEntitySchema.sql:/docker-entrypoint-initdb.d/1.sql
-      - .m2/repository/TypingtestSchema.sql:/docker-entrypoint-initdb.d/2.sql
-      - .m2/repository/LeaderboardSchema.sql:/docker-entrypoint-initdb.d/3.sql
+      - .m2/repository/init.sql:/docker-entrypoint-initdb.d/1.sql
+      - .m2/repository/UserEntitySchema.sql:/docker-entrypoint-initdb.d/2.sql
+      - .m2/repository/TypingtestSchema.sql:/docker-entrypoint-initdb.d/3.sql
+      - .m2/repository/LeaderboardSchema.sql:/docker-entrypoint-initdb.d/4.sql
       - .m2/repository/enWords.csv:/var/lib/mysql-files/enWords.csv
       - .m2/repository/enQuote.csv:/var/lib/mysql-files/enQuote.csv
       - .m2/repository/zhWords.csv:/var/lib/mysql-files/zhWords.csv
@@ -21,6 +22,7 @@ services:
       - db:/var/lib/mysql
     command:
       - '--local_infile=1'
+      - '--explicit_defaults_for_timestamp=1'
 
   auth:
     depends_on:
