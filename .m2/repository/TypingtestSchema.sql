@@ -62,14 +62,14 @@ create table zhQuote
 LOAD DATA INFILE '/var/lib/mysql-files/enWords.csv' INTO TABLE enWords
     FIELDS TERMINATED BY ','
     ENCLOSED BY '"'
-    LINES TERMINATED BY '\r\n'
+    LINES TERMINATED BY '\n'
     IGNORE 1 LINES
     (@col1) set word = @col1;
 
 LOAD DATA INFILE '/var/lib/mysql-files/enQuote.csv' INTO TABLE enQuote
     FIELDS TERMINATED BY ','
     ENCLOSED BY '"'
-    LINES TERMINATED BY '\r\n'
+    LINES TERMINATED BY '\n'
     IGNORE 1 LINES
     (@col1, @col2, @col3, @col4) set text = @col1, source = @col2, length = @col3;
 
@@ -77,26 +77,26 @@ LOAD DATA INFILE '/var/lib/mysql-files/enQuote.csv' INTO TABLE enQuote
 LOAD DATA INFILE '/var/lib/mysql-files/zhWords.csv' IGNORE INTO TABLE zhWords CHARACTER SET utf8
     FIELDS TERMINATED BY ','
     ENCLOSED BY '"'
-    LINES TERMINATED BY '\r\n'
+    LINES TERMINATED BY '\n'
     IGNORE 1 LINES
     (@col1, @col2, @col3, @col4, @col5) set word = @col2;
 LOAD DATA INFILE '/var/lib/mysql-files/zhWords.csv' INTO TABLE zhWords_pinyin CHARACTER SET utf8
     FIELDS TERMINATED BY ','
     ENCLOSED BY '"'
-    LINES TERMINATED BY '\r\n'
+    LINES TERMINATED BY '\n'
     IGNORE 1 LINES
     (@col1, @col2, @col3, @col4, @col5) set zhWords_id = @col1, ziIndex = @col3, pinyin = @col4;
 LOAD DATA INFILE '/var/lib/mysql-files/zhWords.csv' INTO TABLE zhWords_zi CHARACTER SET utf8
     FIELDS TERMINATED BY ','
     ENCLOSED BY '"'
-    LINES TERMINATED BY '\r\n'
+    LINES TERMINATED BY '\n'
     IGNORE 1 LINES
     (@col1, @col2, @col3, @col4, @col5) set zhWords_id = @col1, ziIndex = @col3, zi = @col5;
 
 LOAD DATA INFILE '/var/lib/mysql-files/zhQuote.csv' INTO TABLE zhQuote CHARACTER SET utf8
     FIELDS TERMINATED BY ','
     ENCLOSED BY '"'
-    LINES TERMINATED BY '\r\n'
+    LINES TERMINATED BY '\n'
     IGNORE 1 LINES
     (@col1, @col2, @col3, @col4) set text = @col2, source = @col3, length = @col4;
 
