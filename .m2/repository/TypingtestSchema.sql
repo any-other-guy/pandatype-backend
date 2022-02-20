@@ -100,12 +100,30 @@ LOAD DATA INFILE '/var/lib/mysql-files/zhQuote.csv' INTO TABLE zhQuote CHARACTER
     IGNORE 1 LINES
     (@col1, @col2, @col3, @col4) set text = @col2, source = @col3, length = @col4;
 
-# SELECT zhWords.word                                                                   as word,
-#        cast(concat('[', group_concat(json_quote(pinyin) SEPARATOR ','), ']') as json) as pinyin,
-#        cast(concat('[', group_concat(json_quote(zi) SEPARATOR ','), ']') as json)     as zi
-# FROM zhWords
-#          INNER JOIN zhWords_pinyin zWp
-#                     ON zhWords.id = zWp.zhWords_id
-#          INNER JOIN zhWords_zi zWz
-#                     ON zWp.zhWords_id = zWz.zhWords_id AND zWp.ziIndex = zWz.ziIndex
-# GROUP BY zhWords.id;
+SELECT zhWords.word                                                                   as word,
+       cast(concat('[', group_concat(json_quote(pinyin) SEPARATOR ','), ']') as json) as pinyin,
+       cast(concat('[', group_concat(json_quote(zi) SEPARATOR ','), ']') as json)     as zi
+FROM zhWords
+         INNER JOIN zhWords_pinyin zWp
+                    ON zhWords.id = zWp.zhWords_id
+         INNER JOIN zhWords_zi zWz
+                    ON zWp.zhWords_id = zWz.zhWords_id AND zWp.ziIndex = zWz.ziIndex
+GROUP BY zhWords.id;
+
+
+# DROP TABLE IF EXISTS zhCi;
+#
+# CREATE TABLE zhCi
+# (
+#     id   bigint auto_increment,
+#     ci_id bigint,
+#     word varchar(20) not null unique,
+#     pinyin varchar(20) not null,
+#     zi varchar(20) not null,
+#     PRIMARY KEY (id)
+# );
+#
+# insert into zhCi (ci_id, word, pinyin, zi) values(1,"我们","wo","我");
+# insert into zhCi (ci_id, word, pinyin, zi) values(1,"我们","men","们");
+# insert into zhCi (ci_id, word, pinyin, zi) values(2,"不是","bu","不");
+# insert into zhCi (ci_id, word, pinyin, zi) values(2,"不是","shi","是");
