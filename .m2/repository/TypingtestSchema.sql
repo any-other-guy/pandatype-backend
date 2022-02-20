@@ -1,8 +1,6 @@
 use pandatype_db;
 
 DROP TABLE IF EXISTS zhQuote;
-DROP TABLE IF EXISTS zhWords_zi;
-DROP TABLE IF EXISTS zhWords_pinyin;
 DROP TABLE IF EXISTS zhWords;
 DROP TABLE IF EXISTS enQuote;
 DROP TABLE IF EXISTS enWords;
@@ -12,7 +10,7 @@ CREATE TABLE enWords
     id   bigint auto_increment,
     word varchar(20) not null unique,
     PRIMARY KEY (id)
-);
+) character set = utf8mb4;
 
 CREATE TABLE enQuote
 (
@@ -21,34 +19,17 @@ CREATE TABLE enQuote
     source varchar(1000),
     length integer,
     PRIMARY KEY (id)
-);
+) character set = utf8mb4;
 
 CREATE TABLE zhWords
 (
     id   bigint auto_increment,
-    word varchar(100) unique,
+    ci_id bigint,
+    word varchar(20) not null,
+    zi varchar(20) not null,
+    pinyin varchar(20) not null,
     PRIMARY KEY (id)
-) character set = utf8;
-
-CREATE TABLE zhWords_pinyin
-(
-    id         bigint auto_increment,
-    zhWords_id bigint,
-    ziIndex    bigint,
-    pinyin     TEXT,
-    PRIMARY KEY (id),
-    FOREIGN KEY (zhWords_id) REFERENCES zhWords (id)
-);
-
-CREATE TABLE zhWords_zi
-(
-    id         bigint auto_increment,
-    zhWords_id bigint,
-    ziIndex    bigint,
-    zi         varchar(100),
-    PRIMARY KEY (id),
-    FOREIGN KEY (zhWords_id) REFERENCES zhWords (id)
-) character set = utf8;
+) character set = utf8mb4;
 
 create table zhQuote
 (
@@ -57,48 +38,41 @@ create table zhQuote
     source varchar(100),
     length integer,
     PRIMARY KEY (id)
-) character set = utf8;
+) character set = utf8mb4;
 
-LOAD DATA INFILE '/var/lib/mysql-files/enWords.csv' INTO TABLE enWords
+LOAD DATA INFILE '/var/lib/mysql-files/enWords.csv' INTO TABLE enWords CHARACTER SET utf8mb4
     FIELDS TERMINATED BY ','
     ENCLOSED BY '"'
     LINES TERMINATED BY '\n'
     IGNORE 1 LINES
     (@col1) set word = @col1;
 
-LOAD DATA INFILE '/var/lib/mysql-files/enQuote.csv' INTO TABLE enQuote
+LOAD DATA INFILE '/var/lib/mysql-files/enQuote.csv' INTO TABLE enQuote CHARACTER SET utf8mb4
     FIELDS TERMINATED BY ','
     ENCLOSED BY '"'
     LINES TERMINATED BY '\n'
     IGNORE 1 LINES
     (@col1, @col2, @col3, @col4) set text = @col1, source = @col2, length = @col3;
 
+LOAD DATA INFILE '/var/lib/mysql-files/zhWords.csv' IGNORE INTO TABLE zhWords CHARACTER SET utf8mb4
+    FIELDS TERMINATED BY ','
+    ENCLOSED BY '"'
+    LINES TERMINATED BY '\n'
+    IGNORE 1 LINES
+    (@col1, @col2, @col3, @col4) set ci_id = @col1, word = @col2, zi = @col3, pinyin = @col4;
 
-LOAD DATA INFILE '/var/lib/mysql-files/zhWords.csv' IGNORE INTO TABLE zhWords CHARACTER SET utf8
-    FIELDS TERMINATED BY ','
-    ENCLOSED BY '"'
-    LINES TERMINATED BY '\n'
-    IGNORE 1 LINES
-    (@col1, @col2, @col3, @col4, @col5) set word = @col2;
-LOAD DATA INFILE '/var/lib/mysql-files/zhWords.csv' INTO TABLE zhWords_pinyin CHARACTER SET utf8
-    FIELDS TERMINATED BY ','
-    ENCLOSED BY '"'
-    LINES TERMINATED BY '\n'
-    IGNORE 1 LINES
-    (@col1, @col2, @col3, @col4, @col5) set zhWords_id = @col1, ziIndex = @col3, pinyin = @col4;
-LOAD DATA INFILE '/var/lib/mysql-files/zhWords.csv' INTO TABLE zhWords_zi CHARACTER SET utf8
-    FIELDS TERMINATED BY ','
-    ENCLOSED BY '"'
-    LINES TERMINATED BY '\n'
-    IGNORE 1 LINES
-    (@col1, @col2, @col3, @col4, @col5) set zhWords_id = @col1, ziIndex = @col3, zi = @col5;
-
-LOAD DATA INFILE '/var/lib/mysql-files/zhQuote.csv' INTO TABLE zhQuote CHARACTER SET utf8
+LOAD DATA INFILE '/var/lib/mysql-files/zhQuote.csv' INTO TABLE zhQuote CHARACTER SET utf8mb4
     FIELDS TERMINATED BY ','
     ENCLOSED BY '"'
     LINES TERMINATED BY '\n'
     IGNORE 1 LINES
     (@col1, @col2, @col3, @col4) set text = @col2, source = @col3, length = @col4;
+
+# SELECT zhWords.word AS word,
+#     cast(concat('[', group_concat(json_quote(zi) SEPARATOR ','), ']') AS JSON)     AS zi,
+#     cast(concat('[', group_concat(json_quote(pinyin) SEPARATOR ','), ']') AS JSON) AS pinyin
+# FROM zhWords
+# GROUP BY zhWords.ci_id, zhWords.word;
 
 # SELECT zhWords.word                                                                   as word,
 #        cast(concat('[', group_concat(json_quote(pinyin) SEPARATOR ','), ']') as json) as pinyin,
@@ -109,21 +83,3 @@ LOAD DATA INFILE '/var/lib/mysql-files/zhQuote.csv' INTO TABLE zhQuote CHARACTER
 #          INNER JOIN zhWords_zi zWz
 #                     ON zWp.zhWords_id = zWz.zhWords_id AND zWp.ziIndex = zWz.ziIndex
 # GROUP BY zhWords.id;
-
-
-# DROP TABLE IF EXISTS zhCi;
-#
-# CREATE TABLE zhCi
-# (
-#     id   bigint auto_increment,
-#     ci_id bigint,
-#     word varchar(20) not null unique,
-#     pinyin varchar(20) not null,
-#     zi varchar(20) not null,
-#     PRIMARY KEY (id)
-# );
-#
-# insert into zhCi (ci_id, word, pinyin, zi) values(1,"我们","wo","我");
-# insert into zhCi (ci_id, word, pinyin, zi) values(1,"我们","men","们");
-# insert into zhCi (ci_id, word, pinyin, zi) values(2,"不是","bu","不");
-# insert into zhCi (ci_id, word, pinyin, zi) values(2,"不是","shi","是");

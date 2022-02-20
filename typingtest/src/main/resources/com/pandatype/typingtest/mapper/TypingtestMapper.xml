@@ -40,20 +40,25 @@
 
     <resultMap id="ZhWordsMap" type="ZhWordsEntity">
         <result property="word" column="word"/>
-        <result property="pinyin" column="pinyin"/>
         <result property="zi" column="zi"/>
+        <result property="pinyin" column="pinyin"/>
     </resultMap>
 
     <select id="selectZhWords" resultMap="ZhWordsMap">
-        SELECT zhWords.word                                                                   as word,
-               cast(concat('[', group_concat(json_quote(pinyin) SEPARATOR ','), ']') as json) as pinyin,
-               cast(concat('[', group_concat(json_quote(zi) SEPARATOR ','), ']') as json)     as zi
+#         SELECT zhWords.word                                                                   as word,
+#                cast(concat('[', group_concat(json_quote(pinyin) SEPARATOR ','), ']') as json) as pinyin,
+#                cast(concat('[', group_concat(json_quote(zi) SEPARATOR ','), ']') as json)     as zi
+#         FROM zhWords
+#                  INNER JOIN zhWords_pinyin zWp
+#                             ON zhWords.id = zWp.zhWords_id
+#                  INNER JOIN zhWords_zi zWz
+#                             ON zWp.zhWords_id = zWz.zhWords_id AND zWp.ziIndex = zWz.ziIndex
+#         GROUP BY zhWords.id;
+        SELECT zhWords.word AS word,
+               cast(concat('[', group_concat(json_quote(zi) SEPARATOR ','), ']') AS JSON)     AS zi,
+               cast(concat('[', group_concat(json_quote(pinyin) SEPARATOR ','), ']') AS JSON) AS pinyin
         FROM zhWords
-                 INNER JOIN zhWords_pinyin zWp
-                            ON zhWords.id = zWp.zhWords_id
-                 INNER JOIN zhWords_zi zWz
-                            ON zWp.zhWords_id = zWz.zhWords_id AND zWp.ziIndex = zWz.ziIndex
-        GROUP BY zhWords.id;
+        GROUP BY zhWords.ci_id, zhWords.word;
     </select>
 
     <resultMap id="ZhQuoteMap" type="ZhQuoteEntity">

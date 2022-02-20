@@ -11,12 +11,12 @@ import java.util.List;
 @Setter
 public class ZhWordsEntity {
     private String word;
-    private String pinyin;
     private String zi;
-//    private List<String> pinyin;
+    private String pinyin;
 //    private List<String> zi;
-    
-    public ZhWordsEntity(String word, String pinyin, String zi) {
+//    private List<String> pinyin;
+
+    public ZhWordsEntity(String word, String zi, String pinyin) {
 //        Gson g = new Gson();
 //        List<String> pinyinJSON = g.fromJson(pinyin, List.class);
 //        List<String> ziJSON = g.fromJson(zi, List.class);
@@ -28,7 +28,7 @@ public class ZhWordsEntity {
 //        LOGGER.info(this.zi.toString());
 
         this.word = word;
-        this.pinyin = pinyin;
         this.zi = zi;
+        this.pinyin = pinyin;
     }
 }
