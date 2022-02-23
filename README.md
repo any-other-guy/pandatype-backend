@@ -4,17 +4,17 @@
 
 ### On Local Machine
 
-1. Generate SSL Certificate
+1. Generate p12 keystore from SSL Certificate
    ```sh
    openssl pkcs12 -export -clcerts -in domain.cert.pem -inkey private.key.pem -out springboot.p12
    ```
-2. Send SSL Certificate to remote
+2. Send p12 keystore to remote
    ```sh
-   scp -i aog_aws.pem .\springboot.p12 ec2-user@XXXXXXXXXXXXXXXX.amazonaws.com:springboot.p12
+   scp -i AWS_KEY.pem .\springboot.p12 ec2-user@XXXXXXXXXXXXXXXX.amazonaws.com:springboot.p12
    ```
 3. Connect to AWS EC2 Instance
     ```sh
-   ssh -i "aog_aws.pem" ec2-user@ec2-54-166-71-146.compute-1.amazonaws.com
+   ssh -i "AWS_KEY.pem" ec2-user@XXXXXXXXXXXXXXXX.amazonaws.com
    ```
 
 ### On Remote (AWS EC2 Instance)
@@ -28,7 +28,7 @@
    ```sh
    bash ec2_setup.sh
    ```
-3. Copy SSL Certificate to its respective services at **/resource, also remember to enable SSL in application.properties
+3. Copy SSL Certificate p12 keystore to its respective services at **/resource, also remember to enable SSL in application.properties
    ```sh
    cd
    cp springboot.p12 ./pandatype-backend/leaderboard/src/main/resources/
