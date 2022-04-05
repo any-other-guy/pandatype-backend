@@ -5,7 +5,7 @@ sudo mv jdk-17 /opt/;
 sudo tee /etc/profile.d/jdk.sh <<EOF
 export JAVA_HOME=/opt/jdk-17
 export PATH=$PATH:$JAVA_HOME/bin
-EOF;
+EOF
 
 source /etc/profile.d/jdk.sh;
 
